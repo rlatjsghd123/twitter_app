@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{ useEffect, useState } from 'react'
+import AppRouter from 'Router';
+import { authService } from 'fbase';
+import { onAuthStateChanged } from "firebase/auth";
 
 function App() {
+  const [login, setLogin] = useState(false);
+  const [init,setInit] = useState(false)
+  const [userObj,setUserObj] = useState(null); // 로그인한 사용자 정보
+  useEffect(()=>{
+    onAuthStateChanged(authService, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        setLogin(user);
+        setUserObj(user);
+        const uid = user.uid;
+        // ...
+      } else {
+        setLogin(false);
+        // User is signed out
+        // ...
+      }
+      setInit(true);
+    });
+  },[])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+    { init ? <AppRouter login={login} userObj={userObj} /> : "initializing..." }
+    <footer>&copy; {new Date().getFullYear()} Twitter app</footer>
+    </>
+  )
 }
 
-export default App;
+export default  App;
+
