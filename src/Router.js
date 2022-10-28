@@ -6,7 +6,7 @@ import Profiles from 'routes/Profiles';
 
 function AppRouter({login,userObj}) {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
     {/* && 로그인이 트루이면 네비게이션실행 */}
     {login && <Navigation userObj={userObj} />}
         <Routes>

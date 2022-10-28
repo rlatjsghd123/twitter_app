@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from 'App';
+import './style/index.scss';
 // import firebase from './firebase'
 // console.log(firebase);
 

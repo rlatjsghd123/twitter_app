@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import { collection, addDoc, query, getDocs, onSnapshot,where,orderBy} from "firebase/firestore";
 import Tweet from 'components/Tweet';
 import { updateProfile } from "firebase/auth";
+import '../style/profiles.scss'
 import { async } from '@firebase/util';
 
 
@@ -45,22 +46,22 @@ function Profiles({userObj}) {
     }
   }
   return (
-    <>
-    <form onSubmit={onSubmit}>
-      <input type="text" placeholder='Display name' onChange={onChange} value={newDisplayName} />
-      <input type="submit" value="Update Profile" />
-    </form>
-    <button onClick={onLogOutClick}>Log Out</button>
-    <div>
-    {tweets.map(tweet => (
-      <Tweet 
-      key={tweet.id}
-      tweetObj={tweet}
-      isOwner={tweet.createId === userObj.uid}
-      />
-    ))}
+    <div className='container'>
+      <form onSubmit={onSubmit} className="profileForm">
+          <input type="text" autoFocus className='formInput' placeholder='Display name' onChange={onChange} value={newDisplayName} />
+          <input type="submit" className='formBtn' style={{marginTop:10}} value="Update Profile" />
+      </form>
+      <span onClick={onLogOutClick} className="formBtn cancelBtn logOut">Log Out</span>
+      <div>
+      {tweets.map(tweet => (
+        <Tweet 
+        key={tweet.id}
+        tweetObj={tweet}
+        isOwner={tweet.createId === userObj.uid}
+        />
+      ))}
+      </div>
     </div>
-    </>
   )
 }
 

@@ -4,7 +4,8 @@ import { async } from '@firebase/util';
 import { collection, addDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from 'uuid';
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import '../style/tweetFactory.scss'
  function TweetFactory({userObj}) {
     const [tweet, setTweet] = useState(""); 
     const [attachment, setAttacnment] = useState("")
@@ -49,17 +50,26 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
   
     const onClearAttachment = () => {setAttacnment("")};
   return (
-    <form onSubmit={onSubmit}>
-    <input type="text" placeholder="What's on your mind" value={tweet} onChange={onChange} maxLength={120}/>
-    <input type="file" accept='image/*' onChange={onFileChange} /> {/* multiple  여러장 선택시 */}
-    <input type="submit" value="Tweet" />
-    {attachment && 
-    <div>
-      <img src={attachment} width="50" height="50" />
-      <button onClick={onClearAttachment}>Clear</button>
-    </div>
-    } {/**attachment는 없는값이니까 값이 들어가면 true가 됨  &&는 트루일때 실행됨.  */}
-  </form>
+    <div className='factoryInput_container'>
+      <form onSubmit={onSubmit}>
+      <input type="text" className='factoryInput_input' placeholder="What's on your mind" value={tweet} onChange={onChange} maxLength={120}/>
+      <input type="file" className='factoryInput_arrow' style={ {opacity:0} }  accept='image/*'  onChange={onFileChange} /> {/* multiple  여러장 선택시 */}
+      <label htmlFor='attach_file' className='factoryInput_label'>
+        <span>Add phptos</span>
+        <FontAwesomeIcon icon="fa-solid fa-plus" />
+      </label>
+      <input type="submit" id='attach_file' value="Tweet" onChange={onFileChange} />
+      {attachment && 
+      <div className='factoryForm_attachment'>
+        <img src={attachment} style={{backgroundImage:attachment,}} />
+        <div className='foctoryForm_clear' onClick={onClearAttachment}>
+          <span>Remove</span>
+          <FontAwesomeIcon icon="fa-regular fa-xmark" />
+          </div>
+      </div>
+      } {/**attachment는 없는값이니까 값이 들어가면 true가 됨  &&는 트루일때 실행됨.  */}
+    </form>
+  </div>
   )
 }
 
